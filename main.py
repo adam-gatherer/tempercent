@@ -11,16 +11,6 @@ def longlat_from_postcode(postcode: str):
     return float(long), float(lat)
 
 
-def get_dates():
-    year = date.today().year - 1
-    month = str(date.today().month).zfill(2)
-    day = str(date.today().day).zfill(2)
-    if month == "02" and day == "29":
-        day = 28
-    date_last_year = f"{year}-{month}-{day}"
-    return date_last_year, date_last_year
-
-
 def get_past_five_years():
     five_years = []
     date_today = date.today()
