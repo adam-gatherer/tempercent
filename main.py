@@ -8,7 +8,7 @@ def longlat_from_postcode(postcode: str) -> tuple[float, float]:
     URL = "https://api.postcodes.io/postcodes/" + postcode
     r = requests.get(url=URL)
     data = r.json()
-    if r.status_code == "200" or r.status_code == "304":
+    if r.status_code == 200:
         long = data['result']['longitude']
         lat = data['result']['latitude']
         return float(long), float(lat)
@@ -32,13 +32,13 @@ def get_avg_five_years(longitude: float, latitude: float, today: date, timezone:
         'longitude': longitude,
         'start_date': start_date,
         'end_date': end_date,
-        'daily': 'temperature_2m_maxaaahhoooohheehee',
+        'daily': 'temperature_2m_max',
         'timezone': timezone
         
     }
     r = requests.get("https://archive-api.open-meteo.com/v1/archive", params=payload)
     data = r.json()
-    if r.status_code == "200":
+    if r.status_code == 200:
         dates = data['daily']['time']
         temps = data['daily']['temperature_2m_max']
         last_five_temps = []
@@ -47,11 +47,16 @@ def get_avg_five_years(longitude: float, latitude: float, today: date, timezone:
             last_five_temps.append(temps[index])
         return round((sum(last_five_temps) / len(last_five_temps)), 2)
     else:
-        raise Exception(f'Open-Meteo error: {r.status_code}')
+        raise Exception(f'Open-Meteo error: {r.status_code}, {data["error"]}')
 
 
 def get_temp_today(longitude: float, latitude: float, today: date, timezone: str) -> float:
-    # URL = f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&daily=temperature_2m_max&current_weather=true&timezone={timezone}"
+    # URL = f"https://api.open-meteo.com/v1/forecast?
+    # latitude={latitude}&
+    # longitude={longitude}&
+    # daily=temperature_2m_max&
+    # current_weather=true&
+    # timezone={timezone}"
     payload = {
         'latitude': latitude,
         'longitude': longitude,
@@ -59,9 +64,12 @@ def get_temp_today(longitude: float, latitude: float, today: date, timezone: str
         'current_weather': 'true',
         'timezone': timezone
     }
-    r = requests.get('https://archive-api.open-meteo.com/v1/forecast', params=payload)
+    r = requests.get('https://api.open-meteo.com/v1/forecast', params=payload)
     data = r.json()
-    return data['current_weather']['temperature']
+    if r.status_code == 200:
+        return data['current_weather']['temperature']
+    else:
+        raise Exception(f'Open-Meteo error: {r.status_code}, {data["error"]}')
 
 
 longitude, latitude = longlat_from_postcode("EH51EZ")
