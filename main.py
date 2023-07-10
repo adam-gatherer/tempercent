@@ -19,11 +19,20 @@ def get_past_five_years() -> list:
     return five_years
 
 
-def get_avg_five_years(longitude: float, latitude: float, today, timezone: str) -> float:
+def get_avg_five_years(longitude: float, latitude: float, today: date, timezone: str) -> float:
     start_date = today - timedelta(days=5 * 365)
     end_date = today
-    URL = f"https://archive-api.open-meteo.com/v1/archive?latitude={latitude}&longitude={longitude}&start_date={start_date}&end_date={end_date}&daily=temperature_2m_max&timezone={timezone}"
-    r = requests.get(url=URL)
+    # URL = f"https://archive-api.open-meteo.com/v1/archive?latitude={latitude}&longitude={longitude}&start_date={start_date}&end_date={end_date}&daily=temperature_2m_max&timezone={timezone}"
+    payload = {
+        'latitude': latitude,
+        'longitude': longitude,
+        'start_date': start_date,
+        'end_date': end_date,
+        'daily': 'temperature_2m_max',
+        'timezone': timezone
+        
+    }
+    r = requests.get("https://archive-api.open-meteo.com/v1/archive", params=payload)
     data = r.json()
     dates = data['daily']['time']
     temps = data['daily']['temperature_2m_max']
@@ -34,9 +43,16 @@ def get_avg_five_years(longitude: float, latitude: float, today, timezone: str) 
     return round((sum(last_five_temps) / len(last_five_temps)), 2)
 
 
-def get_temp_today(longitude: float, latitude: float, today, timezone: str) -> float:
-    URL = f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&daily=temperature_2m_max&current_weather=true&timezone={timezone}"
-    r = requests.get(url=URL)
+def get_temp_today(longitude: float, latitude: float, today: date, timezone: str) -> float:
+    # URL = f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&daily=temperature_2m_max&current_weather=true&timezone={timezone}"
+    payload = {
+        'latitude': latitude,
+        'longitude': longitude,
+        'daily': 'temperature_2m_max',
+        'current_weather': 'true',
+        'timezone': timezone
+    }
+    r = requests.get('https://archive-api.open-meteo.com/v1/forecast', params=payload)
     data = r.json()
     return data['current_weather']['temperature']
 

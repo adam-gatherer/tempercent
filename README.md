@@ -6,7 +6,8 @@ A script that uses APIs ([Open-Meteo](https://open-meteo.com), [Postcodes.io](ht
 
 ### To Do:
 
-- type hints
+- ~~type hints~~
+- requirements.txt
 - error handling for external calls
 - user input (CLI/API)
 - swap f-strings for assembling URLs with requests library
