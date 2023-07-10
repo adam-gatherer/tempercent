@@ -51,5 +51,6 @@ if today_pct > 100:
     today_pct -= 100
     above_below = "above"
 else:
+    today_pct = 100 - today_pct
     above_below = "below"
 print(f'Today is {today_pct}% {above_below} the average temperature over the past five years.')
