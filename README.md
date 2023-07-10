@@ -6,4 +6,10 @@ A script that uses APIs ([Open-Meteo](https://open-meteo.com), [Postcodes.io](ht
 
 ### To Do:
 
-- gee I really don't know man
+- type hints
+- error handling for external calls
+- user input (CLI/API)
+- swap f-strings for assembling URLs with requests library
+- move API routes to external config file
+- make get_past_five_years() take start_date arg to get past 5 years from any date
+- ""``""pythonise2""`¬`" list comprehension (booo)
