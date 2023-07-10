@@ -7,7 +7,7 @@ A script that uses APIs ([Open-Meteo](https://open-meteo.com), [Postcodes.io](ht
 ### To Do:
 
 - ~~type hints~~
-- requirements.txt
+- ~~requirements.txt~~
 - ~~error handling for external calls~~
 - postcode validation via uk-postcode-utils
 - user input (CLI/API)
