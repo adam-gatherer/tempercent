@@ -2,7 +2,7 @@ import requests
 from datetime import timedelta, date
 
 
-def longlat_from_postcode(postcode: str):
+def longlat_from_postcode(postcode: str) -> tuple[float, float]:
     URL = "https://api.postcodes.io/postcodes/" + postcode
     r = requests.get(url=URL)
     data = (r.json())
@@ -11,7 +11,7 @@ def longlat_from_postcode(postcode: str):
     return float(long), float(lat)
 
 
-def get_past_five_years():
+def get_past_five_years() -> list:
     five_years = []
     date_today = date.today()
     for i in range(1, 6):
@@ -19,7 +19,7 @@ def get_past_five_years():
     return five_years
 
 
-def get_avg_five_years(longitude: float, latitude: float, today, timezone):
+def get_avg_five_years(longitude: float, latitude: float, today, timezone: str) -> float:
     start_date = today - timedelta(days=5 * 365)
     end_date = today
     URL = f"https://archive-api.open-meteo.com/v1/archive?latitude={latitude}&longitude={longitude}&start_date={start_date}&end_date={end_date}&daily=temperature_2m_max&timezone={timezone}"
@@ -34,7 +34,7 @@ def get_avg_five_years(longitude: float, latitude: float, today, timezone):
     return round((sum(last_five_temps) / len(last_five_temps)), 2)
 
 
-def get_temp_today(longitude: float, latitude: float, today, timezone):
+def get_temp_today(longitude: float, latitude: float, today, timezone: str) -> float:
     URL = f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&daily=temperature_2m_max&current_weather=true&timezone={timezone}"
     r = requests.get(url=URL)
     data = r.json()
