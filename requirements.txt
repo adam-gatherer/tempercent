@@ -1,1 +1,2 @@
 requests==2.25.1
+uk-postcode-utils==1.1.0

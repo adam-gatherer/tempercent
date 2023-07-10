@@ -1,16 +1,21 @@
 import requests
 from datetime import timedelta, date
+from ukpostcodeutils import validation
 
 
 def longlat_from_postcode(postcode: str) -> tuple[float, float]:
+    # postcode = "BEPIS"
     URL = "https://api.postcodes.io/postcodes/" + postcode
     r = requests.get(url=URL)
-    data = (r.json())
-    long = data['result']['longitude']
-    lat = data['result']['latitude']
-    return float(long), float(lat)
-
-
+    data = r.json()
+    if r.status_code == "200" or r.status_code == "304":
+        long = data['result']['longitude']
+        lat = data['result']['latitude']
+        return float(long), float(lat)
+    else:
+        raise Exception(f'Postcodes.io error: {r.status_code}')
+            
+       
 def get_past_five_years() -> list:
     five_years = []
     date_today = date.today()
@@ -22,25 +27,27 @@ def get_past_five_years() -> list:
 def get_avg_five_years(longitude: float, latitude: float, today: date, timezone: str) -> float:
     start_date = today - timedelta(days=5 * 365)
     end_date = today
-    # URL = f"https://archive-api.open-meteo.com/v1/archive?latitude={latitude}&longitude={longitude}&start_date={start_date}&end_date={end_date}&daily=temperature_2m_max&timezone={timezone}"
     payload = {
         'latitude': latitude,
         'longitude': longitude,
         'start_date': start_date,
         'end_date': end_date,
-        'daily': 'temperature_2m_max',
+        'daily': 'temperature_2m_maxaaahhoooohheehee',
         'timezone': timezone
         
     }
     r = requests.get("https://archive-api.open-meteo.com/v1/archive", params=payload)
     data = r.json()
-    dates = data['daily']['time']
-    temps = data['daily']['temperature_2m_max']
-    last_five_temps = []
-    for i in get_past_five_years():
-        index = dates.index(str(i))
-        last_five_temps.append(temps[index])
-    return round((sum(last_five_temps) / len(last_five_temps)), 2)
+    if r.status_code == "200":
+        dates = data['daily']['time']
+        temps = data['daily']['temperature_2m_max']
+        last_five_temps = []
+        for i in get_past_five_years():
+            index = dates.index(str(i))
+            last_five_temps.append(temps[index])
+        return round((sum(last_five_temps) / len(last_five_temps)), 2)
+    else:
+        raise Exception(f'Open-Meteo error: {r.status_code}')
 
 
 def get_temp_today(longitude: float, latitude: float, today: date, timezone: str) -> float:
