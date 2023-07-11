@@ -72,7 +72,7 @@ def get_temp_today(longitude: float, latitude: float, today: date, timezone: str
         raise Exception(f'Open-Meteo error: {r.status_code}, {data["error"]}')
 
 
-longitude, latitude = longlat_from_postcode("EH51EZ")
+longitude, latitude = longlat_from_postcode("EH51SG")
 today = date.today()
 timezone = "GMT"
 avg_five_years = get_avg_five_years(longitude, latitude, today, timezone)
