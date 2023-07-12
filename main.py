@@ -1,7 +1,9 @@
 import requests
 from datetime import timedelta, date
+from timezonefinder import TimezoneFinder
 from ukpostcodeutils import validation
 
+tf = TimezoneFinder()
 
 def longlat_from_postcode(postcode: str) -> tuple[float, float]:
     # postcode = "BEPIS"
@@ -51,12 +53,6 @@ def get_avg_five_years(longitude: float, latitude: float, today: date, timezone:
 
 
 def get_temp_today(longitude: float, latitude: float, today: date, timezone: str) -> float:
-    # URL = f"https://api.open-meteo.com/v1/forecast?
-    # latitude={latitude}&
-    # longitude={longitude}&
-    # daily=temperature_2m_max&
-    # current_weather=true&
-    # timezone={timezone}"
     payload = {
         'latitude': latitude,
         'longitude': longitude,
@@ -71,17 +67,21 @@ def get_temp_today(longitude: float, latitude: float, today: date, timezone: str
     else:
         raise Exception(f'Open-Meteo error: {r.status_code}, {data["error"]}')
 
+def main_function() -> str:
+    longitude, latitude = longlat_from_postcode("EH51SG")
+    today = date.today()
+    timezone = tf.timezone_at(lng=longitude, lat=latitude)
+    avg_five_years = get_avg_five_years(longitude, latitude, today, timezone)
+    temp_today = get_temp_today(longitude, latitude, today, timezone)
+    today_pct = int(round(temp_today / avg_five_years, 2) * 100)
+    if today_pct > 100:
+        today_pct -= 100
+        above_below = "above"
+    else:
+        today_pct = 100 - today_pct
+        above_below = "below"
+    return f'Today is {today_pct}% {above_below} the average temperature over the past five years.'
 
-longitude, latitude = longlat_from_postcode("EH51SG")
-today = date.today()
-timezone = "GMT"
-avg_five_years = get_avg_five_years(longitude, latitude, today, timezone)
-temp_today = get_temp_today(longitude, latitude, today, timezone)
-today_pct = int(round(temp_today / avg_five_years, 2) * 100)
-if today_pct > 100:
-    today_pct -= 100
-    above_below = "above"
-else:
-    today_pct = 100 - today_pct
-    above_below = "below"
-print(f'Today is {today_pct}% {above_below} the average temperature over the past five years.')
+
+if __name__ == "__main__":
+    print(main_function())
