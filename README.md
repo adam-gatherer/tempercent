@@ -9,7 +9,7 @@ A script that uses APIs ([Open-Meteo](https://open-meteo.com), [Postcodes.io](ht
 - ~~type hints~~
 - ~~requirements.txt~~
 - ~~error handling for external calls~~
-- postcode validation via uk-postcode-utils
+- ~~postcode validation via uk-postcode-utils~~
 - user input (CLI/API)
 - swap f-strings for assembling URLs with requests library
 - move API routes to external config file
