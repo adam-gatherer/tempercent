@@ -68,8 +68,9 @@ def get_temp_today(longitude: float, latitude: float, today: date, timezone: str
         raise Exception(f'Open-Meteo error: {r.status_code}, {data["error"]}')
 
 def main_function(postcode: str) -> dict:
+    postcode = (postcode.replace(" ", "")).upper()
     if not validation.is_valid_postcode(postcode):
-        raise Exception('Invalid postcde')
+        return f'Postcode "{postcode}" invalid.'
     longitude, latitude = longlat_from_postcode(postcode)
     today = date.today()
     timezone = tf.timezone_at(lng=longitude, lat=latitude)
