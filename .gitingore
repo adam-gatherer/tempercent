@@ -1,0 +1,12 @@
+# gitignore
+
+## ./
+
+*.bkp
+*.old
+__pycache__
+
+## ./tempercent_app
+tempercent_app/*.bkp
+tempercent_app/*.old
+tempercent_app/__pycache__
