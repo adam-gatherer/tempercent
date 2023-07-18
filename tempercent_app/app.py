@@ -9,21 +9,24 @@ def success(post_code):
     try:
         temp_dict = main_function(post_code)
     except:
-        return f'<h1>bad postcode "{post_code}"</h1>'
+        return render_template(
+            'result.html',
+            message=f'"{post_code}" does not look like a valid UK postcode 🤔'
+        )
     if temp_dict["today_pct"] > 100:
+        today_pct = temp_dict["today_pct"] - 100
         above_below = "above"
     elif temp_dict["today_pct"] < 100:
+        today_pct = 100 - temp_dict["today_pct"]
         above_below = "below"
     else:
         return render_template(
             'result.html',
-            today_pct=temp_dict["today_pct"],
-            above_below="in line with"
+            message="Today's temperature is bang on the average over the past five years."
         )
     return render_template(
         'result.html',
-        today_pct=temp_dict["today_pct"],
-        above_below=above_below
+        message=f'Today is {today_pct}% {above_below} the average over the past five years.'
     )
 
 
@@ -33,7 +36,10 @@ def index_page():
         postcode = request.form['postcode']
         postcode = (postcode.replace(" ","")).upper()
         if not validation.is_valid_postcode(postcode):
-            return f'<h1>bad postcode lol</h1>'
+            return render_template(
+                'result.html',
+                message=f'"{postcode}" does not look like a valid UK postcode.'
+            )
     else:
         postcode = request.args.get('postcode')
     return redirect(url_for('success', post_code = postcode))
