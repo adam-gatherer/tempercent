@@ -5,25 +5,16 @@ html {
 
 body {
   color: white;
-  background-color: #142C4D;
+  background: rgb(6,140,193);
+  background: linear-gradient(47deg, rgba(6,140,193,1) 0%, rgba(142,61,175,1) 49%, rgba(30,142,190,1) 100%); 
   margin: auto;
-}
-
-h3 {
-  width: 100%;
-  padding: 10px 10px;
-  margin: auto;
-  box-sizing: border-box;
-  margin: auto;
-  text-align: center;
-  font-size: 32px;
-  font-family: 'Roboto Mono', monospace;
 }
 
 input[type=text] {
   width: 70%;
   padding: 5px 0px;
-  background-color: #bcebe9;
+  background: rgb(242,221,230);
+  background: linear-gradient(0deg, rgba(242,221,230,1) 0%, rgba(208,229,254,1) 100%);   
   border: solid 3px;
   border-color: #b3b3b3;
   border-radius: 12px;
@@ -35,10 +26,22 @@ input[type=text] {
   transition: width 0.4s ease-in-out;  
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+label {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
 input[type=text]:focus {
   width: 100%;
   border-radius: 2px;
-  background-color: #e9f5f4;
+  background: #e9f5f4;
   color: #142C4D;
   padding: 5px 2px;
 }
@@ -78,4 +81,9 @@ input[type=submit]:hover {
 ::-ms-input-placeholder { /* Microsoft Edge */
   color: #b3b3b3;
   font-style: italic
+}
+
+.postcodelable {
+  font-family: 'Roboto Mono'; 
+  font-weight: medium;
 }
