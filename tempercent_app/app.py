@@ -1,12 +1,15 @@
 from flask import Flask, redirect, url_for, request, render_template
+from ukpostcodeutils import validation
 from main import main_function
 app = Flask(__name__)
 
 
 @app.route('/success/<post_code>')
 def success(post_code):
-    # return f'<h1>{main_function(post_code)}</h1>'
-    temp_dict = main_function(post_code)
+    try:
+        temp_dict = main_function(post_code)
+    except:
+        return f'<h1>bad postcode "{post_code}"</h1>'
     if temp_dict["today_pct"] > 100:
         above_below = "above"
     elif temp_dict["today_pct"] < 100:
@@ -27,20 +30,17 @@ def success(post_code):
 @app.route('/postcode',methods = ['POST', 'GET'])
 def index_page():
     if request.method == 'POST':
-        try:
-            postcode = request.form['postcode']
-            return redirect(url_for('success', post_code = postcode))
-        except:
-            return f'<h1>BAD POSTCODE</h1>'
+        postcode = request.form['postcode']
+        postcode = (postcode.replace(" ","")).upper()
+        if not validation.is_valid_postcode(postcode):
+            return f'<h1>bad postcode lol</h1>'
     else:
         postcode = request.args.get('postcode')
-        return redirect(url_for('success', post_code = postcode))
+    return redirect(url_for('success', post_code = postcode))
 
 
 @app.route("/")
 def main_page():
-    #out_str = main_function("EH51SG")
-    #return f"<h1>{out_str}</h1>"
     return render_template('index.html')
     
     
