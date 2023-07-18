@@ -5,14 +5,33 @@ app = Flask(__name__)
 
 @app.route('/success/<post_code>')
 def success(post_code):
-    return f'<h1>{main_function(post_code)}</h1>'
+    # return f'<h1>{main_function(post_code)}</h1>'
+    temp_dict = main_function(post_code)
+    if temp_dict["today_pct"] > 100:
+        above_below = "above"
+    elif temp_dict["today_pct"] < 100:
+        above_below = "below"
+    else:
+        return render_template(
+            'result.html',
+            today_pct=temp_dict["today_pct"],
+            above_below="in line with"
+        )
+    return render_template(
+        'result.html',
+        today_pct=temp_dict["today_pct"],
+        above_below=above_below
+    )
 
 
 @app.route('/postcode',methods = ['POST', 'GET'])
 def index_page():
     if request.method == 'POST':
-        postcode = request.form['postcode']
-        return redirect(url_for('success', post_code = postcode))
+        try:
+            postcode = request.form['postcode']
+            return redirect(url_for('success', post_code = postcode))
+        except:
+            return f'<h1>BAD POSTCODE</h1>'
     else:
         postcode = request.args.get('postcode')
         return redirect(url_for('success', post_code = postcode))

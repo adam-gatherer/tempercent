@@ -92,4 +92,7 @@ def main_function(postcode: str) -> dict:
 
 
 if __name__ == "__main__":
-    print(main_function())
+    # print(main_function())
+    print("Running from command line, probably.")
+    print("Using test postcode EH1 2NG")
+    print(main_function("EH12NG"))
