@@ -4,8 +4,8 @@ from main import main_function
 app = Flask(__name__)
 
 
-@app.route('/success/<post_code>')
-def success(post_code):
+@app.route('/result/<post_code>')
+def result(post_code):
     try:
         temp_dict = main_function(post_code)
     except:
@@ -13,11 +13,10 @@ def success(post_code):
             'result.html',
             message=f'"{post_code}" does not look like a valid UK postcode 🤔'
         )
+    today_pct = temp_dict["today_pct"]
     if temp_dict["today_pct"] > 100:
-        today_pct = temp_dict["today_pct"] - 100
         above_below = "above"
     elif temp_dict["today_pct"] < 100:
-        today_pct = 100 - temp_dict["today_pct"]
         above_below = "below"
     else:
         return render_template(
@@ -31,7 +30,7 @@ def success(post_code):
 
 
 @app.route('/postcode',methods = ['POST', 'GET'])
-def index_page():
+def postcode_page():
     if request.method == 'POST':
         postcode = request.form['postcode']
         postcode = (postcode.replace(" ","")).upper()
@@ -42,11 +41,11 @@ def index_page():
             )
     else:
         postcode = request.args.get('postcode')
-    return redirect(url_for('success', post_code = postcode))
+    return redirect(url_for('result', post_code = postcode))
 
 
 @app.route("/")
-def main_page():
+def index_page():
     return render_template('index.html')
     
     
