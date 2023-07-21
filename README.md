@@ -8,11 +8,12 @@ A script that uses APIs ([Open-Meteo](https://open-meteo.com), [Postcodes.io](ht
 
 - [x] type hints
 - [x] requirements.txt
-- ~~error handling for external calls~~
-- ~~postcode validation via uk-postcode-utils~~
-- ~~user input (CLI/API)~~ (half done, still need to do API)
-- ~~swap f-strings for assembling URLs with requests library~~
-- return page for bad postcode entr
-- move API routes to external config file
-- make get_past_five_years() take start_date arg to get past 5 years from any date
-- ""``""pythonise2""`¬`" list comprehension (booo)
+- [x] error handling for external calls
+- [x] postcode validation via uk-postcode-utils
+- [x] user input via website
+- [ ] user input via API
+- [x] swap f-strings for assembling URLs with requests library
+- [ ] return page for bad postcode entr
+- [ ] move API routes to external config file
+- [ ] make get_past_five_years() take start_date arg to get past 5 years from any date
+- [ ] "pythonise" python scripts (implement list comprehension etc.)
