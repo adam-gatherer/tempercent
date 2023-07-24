@@ -1,6 +1,6 @@
 # Tempercent
 
-Expressing the temperature as a percentage to prevent "Oh, you think that's hot?"
+_Expressing the temperature as a percentage to prevent "Oh, you think **that's** hot?"_
 
 ## About
 
