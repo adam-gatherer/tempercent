@@ -1,10 +1,16 @@
 # Tempercent
 
-### About
+Expressing the temperature as a percentage to prevent "Oh, you think that's hot?"
+
+## About
 
 A script that uses APIs ([Open-Meteo](https://open-meteo.com), [Postcodes.io](https://postcodes.io/)) to calculate today's temperature as a percentage of the average over the past five years for this date. Served as a web app with [Flask](https://flask.palletsprojects.com/en/2.3.x/).
 
-### To Do:
+## Usage
+
+First, install [Poetry](https://python-poetry.org/). Then clone the repository, install dependencies with `poetry install` in the root directory, then `poetry run tempercent_app/app.py` to start the Flask server.
+
+## To Do:
 
 - [x] type hints
 - [x] requirements.txt
