@@ -28,4 +28,4 @@ First, install [Poetry](https://python-poetry.org/). Then clone the repository, 
 - [ ] move API routes to external config file
 - [ ] make get_past_five_years() take start_date arg to get past 5 years from any date
 - [ ] "pythonise" python scripts (implement list comprehension etc.)
-- [ ] add a screenshot to the repo's README.md
+- [x] add a screenshot to the repo's README.md
