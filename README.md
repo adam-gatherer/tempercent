@@ -13,7 +13,7 @@ A script that uses APIs ([Open-Meteo](https://open-meteo.com), [Postcodes.io](ht
 
 ## Usage
 
-First, install [Poetry](https://python-poetry.org/). Then clone the repository, install dependencies with `poetry install` in the root directory, then `poetry run tempercent_app/app.py` to start the Flask server.
+First, install [Poetry](https://python-poetry.org/). Then clone the repository, install dependencies with `poetry install` in the root directory, then `poetry run python tempercent_app/app.py` to start the Flask server.
 
 ## To Do:
 
